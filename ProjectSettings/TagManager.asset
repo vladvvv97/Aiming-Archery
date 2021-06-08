@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Arrow
+  - Ground
+  - Building
+  - Enemy
+  - Wood
+  - Stone
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Ground
+  - Player
+  - Arrow
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 10241475
+    locked: 0
+  - name: Ground
+    uniqueID: 2797783305
+    locked: 0
+  - name: Flag
+    uniqueID: 3346331039
+    locked: 0
+  - name: Building
+    uniqueID: 742213909
+    locked: 0
+  - name: Arrow
+    uniqueID: 2401202949
+    locked: 0
+  - name: Enemy
+    uniqueID: 858675787
+    locked: 0
+  - name: Player
+    uniqueID: 2208933689
+    locked: 0
+  - name: HP Bar
+    uniqueID: 2709899773
+    locked: 0
+  - name: UI
+    uniqueID: 811591693
+    locked: 0
