@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class EnemyShield : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private int hitsToDestroy = 2;
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         
