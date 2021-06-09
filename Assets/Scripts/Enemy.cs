@@ -118,7 +118,6 @@ public class Enemy : MonoBehaviour
                 arrow.SetParent(Shield);
             }
         }
-        AudioManager.INSTANCE.PlaySound(AudioManager.eSoundsNames.arrow_hit_wood);
     }
 
     protected virtual void Die()

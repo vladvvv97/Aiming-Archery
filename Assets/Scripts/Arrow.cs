@@ -57,6 +57,7 @@ public class Arrow : MonoBehaviour
             case "Stone":
                 AudioManager.INSTANCE.PlaySound(AudioManager.eSoundsNames.arrow_hit_stone);
                 break;
+
             case "Wood":
                 AudioManager.INSTANCE.PlaySound(AudioManager.eSoundsNames.arrow_hit_wood);
                 break;
