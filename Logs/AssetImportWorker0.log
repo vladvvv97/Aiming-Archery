@@ -175,3 +175,12 @@ Total: 1.929800 ms (FindLiveObjects: 0.183600 ms CreateObjectMapping: 0.076600 m
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:graphics/normal-map-encoding: 01000000000000000000000000000000 -> 02000000000000000000000000000000
+========================================================================
+Received Import Request.
+  Time since last request: 665.156537 seconds.
+  path: Assets/Prefabs/OrcWithAxeAndShield.prefab
+  artifactKey: Guid(40e2a43de8c370e4f919c6fc444ef69f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/OrcWithAxeAndShield.prefab using Guid(40e2a43de8c370e4f919c6fc444ef69f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4e51c09c74a5a55c8fbcb836856fa9ff') in 0.096467 seconds
+  Import took 0.104292 seconds .
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
