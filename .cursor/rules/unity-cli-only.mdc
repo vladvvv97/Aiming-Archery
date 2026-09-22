@@ -1,0 +1,36 @@
+---
+description: Use only Unity CLI for all Unity Editor/project interaction in this repo
+alwaysApply: true
+---
+
+# Unity CLI only
+
+For any Unity work in this project, use **only the Unity CLI** (`unity`). Do not use third-party Unity MCP packages, the deprecated in-Editor AI Assistant MCP server, or ad-hoc Editor automation outside the CLI.
+
+## Preferred interface
+
+Prefer shell commands over MCP (faster, fewer tokens):
+
+```bash
+unity status
+unity command
+unity command <name> [args...]
+unity command eval '/* C# */'
+```
+
+Pass `--project-path D:\Unity-Projects\Aiming-Archery` when more than one Editor may be open. From this repo's cwd, auto-detection is usually enough.
+
+## When the Editor is running
+
+If `unity status` shows this project as `ready`, drive the live Editor via CLI instead of hand-editing `.unity` / `.prefab` / `.asset` YAML.
+
+Requires `com.unity.pipeline` (already in this project). Recover Safe Mode / connection failures with `unity pipeline list` and compile fixes — do not fall back to blind scene-file edits.
+
+## MCP
+
+Cursor may already be configured with the CLI MCP (`unity mcp` in `~/.cursor/mcp.json`). That is allowed because it is the Unity CLI server. Do not add or prefer a different Unity MCP. Prefer `unity command` / `unity status` when shell is available.
+
+## Reference
+
+- Docs: https://docs.unity.com/en-us/unity-cli/replace-mcp-server-unity-cli
+- Skill guide: `unity skill show`
