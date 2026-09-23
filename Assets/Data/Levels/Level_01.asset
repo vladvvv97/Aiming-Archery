@@ -16,6 +16,6 @@ MonoBehaviour:
   sceneName: Scene_Game_Level_1
   arrowBudgets:
   - type: 0
-    count: 3
+    count: 10
   threeStarMin: 2
   twoStarMin: 1

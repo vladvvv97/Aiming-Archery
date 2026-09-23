@@ -6,7 +6,7 @@ public class ArrowBudgetUI : MonoBehaviour
 {
     [SerializeField] private Text countText;
     [SerializeField] private ArrowTypeId type = ArrowTypeId.Normal;
-    [SerializeField] private string labelFormat = "Стрелы: {0}";
+    [SerializeField] private string labelFormat = "{0}";
 
     private void Update()
     {

@@ -94,7 +94,8 @@ public class Enemy : MonoBehaviour
 
         if (Health <= 0)
         {
-            _animator.SetTrigger("IsDied");
+            if (_animator != null)
+                _animator.SetTrigger("IsDied");
             Die();
         }
 

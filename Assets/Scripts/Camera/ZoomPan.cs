@@ -7,8 +7,12 @@ public class ZoomPan : MonoBehaviour
     Vector3 touch;
     public float zoomMin = 6;
     public float zoomMax = 15;
+    [SerializeField] private float scrollZoomSpeed = 1.25f;
+
     void Update()
     {
+        if (Camera.main == null) return;
+
         //if (Input.GetMouseButtonDown(0))
         //{
         //    touch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -29,12 +33,17 @@ public class ZoomPan : MonoBehaviour
 
             Zoom(difference * 0.01f);
         }
+
+        // Wheel notch and a laptop trackpad pinch both arrive as scroll delta.
+        float scroll = Input.mouseScrollDelta.y;
+        if (Mathf.Abs(scroll) > 0.01f && Player.IsShooting == false)
+            Zoom(scroll * scrollZoomSpeed);
+
         //else if (Input.GetMouseButton(0))
         //{
         //    Vector3 direction = touch - Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //    Camera.main.transform.position += direction;
         //}
-        //Zoom(Input.GetAxis("Mouse ScrollWheel"));
     }
 
     void Zoom(float increment)
