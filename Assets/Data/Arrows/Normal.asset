@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c89b29f8fa1b21d40a630625a3f2a9de, type: 3}
+  m_Name: Normal
+  m_EditorClassIdentifier: Assembly-CSharp::ArrowTypeConfig
+  id: 0
+  displayNameKey: arrow.normal
+  icon: {fileID: 1055190983170492755, guid: eec483e45a2d8fc47a63f94269b72ef9, type: 3}
+  prefab: {fileID: 358080391905357224, guid: 7972c9444ae87104daffb7d41e50c82b, type: 3}
+  baseDamage: 50
+  aoeRadius: 0
+  pierceCharges: 0
+  gravityScale: 1
+  ignite: 0
+  igniteDuration: 0
+  igniteDps: 0
+  freezeDuration: 0
+  trailColor: {r: 0.72, g: 0.48, b: 0.28, a: 1}

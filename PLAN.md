@@ -69,6 +69,7 @@ Phases 2–3 can overlap with 4 if staffing allows; **1 before 2**, **5 after 1*
 
 - Level with Normal + Piercing + Magic budgets solvable as a small puzzle.
 - Shielded orc behaves per DESIGN.
+- Piercing flight is near-straight and sticks only on the second contact. Magic shows a radius-matched burst. HUD slots are icon buttons and auto-advance when a type runs out.
 
 ---
 

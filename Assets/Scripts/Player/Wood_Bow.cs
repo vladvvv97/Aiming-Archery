@@ -275,15 +275,29 @@ public class Wood_Bow : MonoBehaviour
 
     private Vector2 PointPosition(float t)
     {
+        float gravityScale = 1f;
+        ArrowTypeConfig typeConfig = LevelController.Instance != null ? LevelController.Instance.ConfigFor(_shotType) : null;
+        if (typeConfig != null)
+            gravityScale = typeConfig.gravityScale;
+
         Vector2 position = (Vector2)shotPoint.position + (direction.normalized * -_arrowImpulseForce * t)
-         + 0.5f * Physics2D.gravity * (Mathf.Pow(t, 2));
+         + 0.5f * Physics2D.gravity * gravityScale * (Mathf.Pow(t, 2));
         return position;
     }
     private bool _drawAllowed = true;
+    private ArrowTypeId _shotType = ArrowTypeId.Normal;
+
+    private GameObject PrefabForShot()
+    {
+        ArrowTypeConfig typeConfig = LevelController.Instance != null ? LevelController.Instance.ConfigFor(_shotType) : null;
+        if (typeConfig != null && typeConfig.prefab != null) return typeConfig.prefab;
+        return arrowPrefab;
+    }
 
     public void OnPointerDown()
     {
-        _drawAllowed = LevelController.Instance == null || LevelController.Instance.CanShoot(ArrowTypeId.Normal);
+        _shotType = LevelController.Instance != null ? LevelController.Instance.ActiveType : ArrowTypeId.Normal;
+        _drawAllowed = LevelController.Instance == null || LevelController.Instance.CanShoot(_shotType);
         if (!_drawAllowed) return;
 
         Player.IsShooting = true;
@@ -303,7 +317,10 @@ public class Wood_Bow : MonoBehaviour
 
 
 
-        _currentArrow = Instantiate<GameObject>(arrowPrefab, transform).GetComponent<Wood_Arrow>(); // transform
+        GameObject shotPrefab = PrefabForShot();
+        _currentArrow = Instantiate<GameObject>(shotPrefab, transform).GetComponent<Wood_Arrow>();
+        if (_currentArrow != null && LevelController.Instance != null)
+            _currentArrow.ApplyConfig(LevelController.Instance.ConfigFor(_shotType));
     }
 
     public void ShootOnPointerUp()
@@ -329,7 +346,7 @@ public class Wood_Bow : MonoBehaviour
         shotFired = true;
         Invoke("SetShotFiredFalse", 0.1f);
 
-        LevelController.Instance?.Spend(ArrowTypeId.Normal);
+        LevelController.Instance?.Spend(_shotType);
     }
 
 

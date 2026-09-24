@@ -76,7 +76,7 @@ Build settings must list menu + all shipped levels. Old `TrainingManager` path a
 
 ## Physics / tags
 
-Reuse tags: `Enemy`, `Ground`, `Stone`, `Wood`, etc. Add clear layers/tags for: pierceable wall, flammable, dynamic prop. Piercing consumes **one** pierceable barrier then continues.
+Reuse tags: `Enemy`, `Ground`, `Stone`, `Wood`, etc. Ground impact audio also treats the `Ground` layer as ground, because authored tiles are often untagged. Add clear layers/tags for: pierceable wall, flammable, dynamic prop. Piercing passes the first solid contact (damage, no stick) and embeds in the second. `gravityScale` on `ArrowTypeConfig` flattens that shot.
 
 ## Persistence
 

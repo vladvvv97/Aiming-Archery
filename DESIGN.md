@@ -37,21 +37,23 @@ Per-level **budget by type** (e.g. 3 Normal + 1 Fire). UI: **slot bar** with ico
 
 | Type | Effect |
 |------|--------|
-| Normal | Damage |
-| Magic | AOE |
+| Normal | Damage. Standard gravity arc. |
+| Magic | AOE large enough to clip a neighboring enemy. Blue flame on the projectile and a burst VFX whose ring matches `aoeRadius`. |
 | Fire | Ignite target / flammable props; **ignites shield → burns away** |
 | Ice | Brief freeze/stop on enemy **or** dynamic prop |
-| Piercing | Passes **one** wall (or equivalent); vs shield: **−1 shield durability and continues into body** |
+| Piercing | Almost no gravity (near-straight flight). Passes through the **first** solid hit (wall, orc, or shield): that hit is damaged and the arrow keeps flying. Sticks in the **second** object (wall, orc, ground, …). |
 
 **Unlock:** campaign milestones only (no coin shop). Soft launch starts with Normal; Magic / Fire / Ice / Piercing unlock later.
+
+HUD slots are **buttons**: the arrow’s icon plus the remaining count. The icon is the only type label. If the selected type hits 0, the bow switches to the next type in the level that still has ammo.
 
 ### Shield rules
 
 - Shield has durability.
 - Non-piercing (except fire): hit shield → **−1 durability**, no body damage while durability > 0.
 - Fire: ignites shield until destroyed.
-- Magic AOE may damage body if blast hits around the shield.
-- Piercing: −1 shield **and** hits body.
+- Magic AOE may damage body if blast hits around the shield, and can reach a neighbor inside `aoeRadius`.
+- Piercing: the shield counts as the first obstacle (−1 durability, arrow does not stick). The next contact sticks and, if that is the body, deals zone damage.
 
 ## Environment
 

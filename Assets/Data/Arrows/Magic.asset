@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c89b29f8fa1b21d40a630625a3f2a9de, type: 3}
+  m_Name: Magic
+  m_EditorClassIdentifier: Assembly-CSharp::ArrowTypeConfig
+  id: 1
+  displayNameKey: arrow.magic
+  icon: {fileID: 880505871297095872, guid: c0b4deceed1c2894fb748e22c6342d5b, type: 3}
+  prefab: {fileID: 2720574001697592866, guid: a06338acc3c3b6248ad3382532394288, type: 3}
+  baseDamage: 50
+  aoeRadius: 3.5
+  pierceCharges: 0
+  gravityScale: 1
+  ignite: 0
+  igniteDuration: 0
+  igniteDps: 0
+  freezeDuration: 0
+  trailColor: {r: 0.35, g: 0.85, b: 1, a: 1}

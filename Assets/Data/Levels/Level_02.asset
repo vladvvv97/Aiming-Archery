@@ -10,14 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f2b24a81d8e99f43a267c1176425850, type: 3}
-  m_Name: Level_01
+  m_Name: Level_02
   m_EditorClassIdentifier: Assembly-CSharp::LevelConfig
-  levelId: 1
-  sceneName: Scene_Game_Level_1
+  levelId: 2
+  sceneName: Scene_Game_Level_2
   arrowBudgets:
   - type: 0
-    count: 10
+    count: 2
+  - type: 4
+    count: 1
+  - type: 1
+    count: 1
   typeConfigs:
   - {fileID: 11400000, guid: 4262feba581398d4db684ad419fae9c1, type: 2}
-  threeStarMin: 2
-  twoStarMin: 1
+  - {fileID: 11400000, guid: 82e8c1d39b0d4ca4f9ca301912621bfb, type: 2}
+  - {fileID: 11400000, guid: 208d10c3e5b856642ae5787ee16efda2, type: 2}
+  threeStarMin: 1
+  twoStarMin: 0

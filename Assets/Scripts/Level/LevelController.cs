@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-// Scene-scoped controller: arrow budgets, enemy registry, win/lose/settle, stars (see SPEC.md 3.1).
-// Phase 1 scope: Normal arrows only. Ads / cloud save hooks are later phases (SPEC.md 4).
+// Scene-scoped controller: arrow budgets, active type, enemy registry, win/lose/settle, stars (see SPEC.md 3.1).
+// Unlock filtering against campaign progress is Phase 5; types listed on the config are available.
 public class LevelController : MonoBehaviour
 {
     public static LevelController Instance { get; private set; }
@@ -35,6 +35,8 @@ public class LevelController : MonoBehaviour
     private bool _levelEnded;
     private Coroutine _settleRoutine;
 
+    public ArrowTypeId ActiveType { get; private set; } = ArrowTypeId.Normal;
+
     public int EnemiesAlive
     {
         get
@@ -57,13 +59,20 @@ public class LevelController : MonoBehaviour
     {
         if (config != null)
         {
+            bool picked = false;
             foreach (var budget in config.arrowBudgets)
             {
+                if (budget.count <= 0) continue;
                 _remaining[budget.type] = budget.count;
+                if (!picked || budget.type == ArrowTypeId.Normal)
+                {
+                    ActiveType = budget.type;
+                    picked = true;
+                }
             }
         }
 
-        _enemies.AddRange(FindObjectsByType<Enemy>(FindObjectsSortMode.None));
+        _enemies.AddRange(FindObjectsByType<Enemy>());
 
         if (winPanel != null) winPanel.SetActive(false);
         if (losePanel != null) losePanel.SetActive(false);
@@ -83,6 +92,17 @@ public class LevelController : MonoBehaviour
         }
     }
 
+    public ArrowTypeConfig ConfigFor(ArrowTypeId type)
+    {
+        return config != null ? config.GetTypeConfig(type) : null;
+    }
+
+    public void Select(ArrowTypeId type)
+    {
+        if (Remaining(type) <= 0) return;
+        ActiveType = type;
+    }
+
     public bool CanShoot(ArrowTypeId type)
     {
         if (_levelEnded) return false;
@@ -98,10 +118,38 @@ public class LevelController : MonoBehaviour
     {
         if (!_remaining.ContainsKey(type)) return;
         _remaining[type] = Mathf.Max(0, _remaining[type] - 1);
+        if (Remaining(type) <= 0)
+            SelectNextAvailable(type);
 
         if (AllBudgetsEmpty() && _settleRoutine == null && !_levelEnded)
         {
             _settleRoutine = StartCoroutine(WaitSettleThenLoseUnlessWin());
+        }
+    }
+
+    private void SelectNextAvailable(ArrowTypeId spent)
+    {
+        if (config == null || config.arrowBudgets == null) return;
+
+        int count = config.arrowBudgets.Length;
+        int start = 0;
+        for (int i = 0; i < count; i++)
+        {
+            if (config.arrowBudgets[i].type == spent)
+            {
+                start = i;
+                break;
+            }
+        }
+
+        for (int step = 1; step <= count; step++)
+        {
+            var budget = config.arrowBudgets[(start + step) % count];
+            if (Remaining(budget.type) > 0)
+            {
+                ActiveType = budget.type;
+                return;
+            }
         }
     }
 

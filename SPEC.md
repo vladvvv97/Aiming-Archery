@@ -31,12 +31,13 @@ public enum ArrowTypeId
 |-------|------|--------|
 | `id` | `ArrowTypeId` | Unique |
 | `displayNameKey` | string | i18n key |
-| `icon` | Sprite | Loadout UI |
+| `icon` | Sprite | HUD button only |
 | `prefab` | `Arrow` | Projectile |
 | `baseDamage` | float | Fed into body multipliers |
-| `aoeRadius` | float | Magic; 0 = none |
+| `aoeRadius` | float | Magic; 0 = none. Large enough to reach a neighbor |
 | `aoeDamageFalloff` | optional | Default flat AOE dmg = base |
-| `pierceCharges` | int | Piercing = 1 (walls/shield consume) |
+| `pierceCharges` | int | Piercing = 1. First solid hit is a pass-through; the next sticks |
+| `gravityScale` | float | 1 = normal arc. Piercing ≈ 0.12 (near-straight) |
 | `ignite` | bool | Fire |
 | `igniteDuration` | float | Shield/prop burn time |
 | `igniteDps` | float | Optional DoT on flesh |
@@ -102,6 +103,7 @@ Singleton-per-scene (or scene-scoped service).
 - Load `LevelConfig` (ref on scene bootstrap).
 - Filter budgets to types in config ∩ `Progress.unlockedArrows`.
 - Track remaining counts; expose `CanShoot(type)`, `Spend(type)`, `AddBonusArrow(type)` (ads).
+- When `Spend` empties the active type, select the next budget entry that still has ammo (wraps). Empty slots are not selectable.
 - Register enemies (`Enemy` OnEnable/OnDestroy or explicit list).
 - Observe shots in flight (`Arrow` register/unregister).
 - **Win:** enemies alive == 0 → compute stars → save → show win UI → interstitial policy → map/next.
@@ -125,23 +127,27 @@ Win always pre-empts lose if enemies hit 0 during settle.
 ### 3.2 Bow / spawn
 
 - `Wood_Bow` (or extracted `BowController`) asks `LevelController` for active type + remaining.
-- Spawns prefab from `ArrowTypeConfig`; applies impulse as today.
+- Spawns prefab from `ArrowTypeConfig`; applies impulse as today. Aim preview uses that type's `gravityScale`.
 - If remaining == 0 for active type, refuse release (feedback SFX/UI).
 
 ### 3.3 `Arrow` hit pipeline
 
 Order on contact:
 
-1. If `Pierceable` and `pierceChargesLeft > 0`: decrement charge, ignore collision response (trigger or temp ignore), continue flight.
-2. If `EnemyShield` and durability > 0:
+1. If Piercing and `pierceChargesLeft > 0`: decrement, damage this contact, `IgnoreCollision` on it, keep velocity, do not stick.
+   - Shield: durability−1 only (body is a later contact).
+   - Body zone: that zone’s damage, then ignore the rest of this enemy.
+   - Anything else (wall, ground, …): ignore that body’s colliders.
+2. Otherwise stick. If `EnemyShield` and durability > 0:
    - Fire: start ignite on shield; do not body-hit unless shield already 0.
-   - Piercing: durability−1, continue to body on same enemy (ray/overlap or second query).
    - Else: durability−1, stop arrow (stick/block) — no body damage.
 3. Body zones (`Head`/`Chest`/`Legs`): existing multipliers.
-4. Magic: on hit (or explode at point), `OverlapCircle` damage enemies in radius (shield rules per target).
+4. Magic: on the sticking hit, `OverlapCircle` damage enemies in `aoeRadius` (neighbors included) and spawn a burst VFX of that radius. Direct hit and AOE on the same enemy do not stack.
 5. Ice: apply freeze to `Enemy` or dynamic `Rigidbody2D` with marker.
 6. Fire on flammable prop: start burn.
 7. Existing barrel `Explosion` path kept.
+
+Ground impact plays `arrow_hit_ground` when the collider’s tag **or** layer is `Ground` (level tiles are often untagged but on the Ground layer).
 
 ### 3.4 `EnemyShield`
 
@@ -179,7 +185,7 @@ Shared: produce `Vector2 aimDir` + `float draw01` for existing bow tiers.
 | Win | Stars, next / map |
 | Lose | Rewarded continue (type picker among types with config budget > 0 or unlocked types that had budget this level), restart |
 
-Slots: show types with `budget > 0` in this level that are unlocked; selected highlight.
+Slots: show types with `budget > 0` in this level that are unlocked. Each slot is a **button** with the arrow icon and the count only (no type name). Selected highlight on the button.
 
 ### 3.8 Campaign unlock defaults (editable data)
 
@@ -284,7 +290,7 @@ Gameplay only depends on these; Yandex and Editor provide implementations.
 ## 8. Test checklist (per phase)
 
 - P1: budget 3 → 3 shots max; kill all with 1 left → ≥2★; miss all → lose after settle.
-- P2: pierce one wall kills rear orc; shield blocks normal until durability 0.
+- P2: piercing passes the first contact and sticks in the second (wall then orc, or shield then body); shield blocks normal until durability 0; magic burst can reach a neighbor.
 - P3: fire burns shield; ice stops falling plank briefly.
 - P4: complete level mouse-only aim; barrier blocks exit.
 - P5: no coin references in scenes; Level 1 has no TrainingManager.

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c89b29f8fa1b21d40a630625a3f2a9de, type: 3}
+  m_Name: Piercing
+  m_EditorClassIdentifier: Assembly-CSharp::ArrowTypeConfig
+  id: 4
+  displayNameKey: arrow.piercing
+  icon: {fileID: -3595552155379627849, guid: 8f2ccc3dcd3be444d8717acb29311d64, type: 3}
+  prefab: {fileID: 4001396750493043796, guid: 17e9fc980857bec4d8ac1da6a9827a40, type: 3}
+  baseDamage: 50
+  aoeRadius: 0
+  pierceCharges: 1
+  gravityScale: 0.12
+  ignite: 0
+  igniteDuration: 0
+  igniteDps: 0
+  freezeDuration: 0
+  trailColor: {r: 0.85, g: 0.95, b: 1, a: 1}
